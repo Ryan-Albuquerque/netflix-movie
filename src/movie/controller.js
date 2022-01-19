@@ -4,8 +4,8 @@ const controller = {};
 
 const list = async (req, res, next) => {
   try {
-    const requests = await service.listMovies();
-    return res.json({ requests });
+    const movies = await service.listMovies();
+    return res.json({ movies });
   } catch (error) {
     next(error);
   }
@@ -13,8 +13,8 @@ const list = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const request = req.body;
-    const created = await service.createMovie(request);
+    const movie = req.body;
+    const created = await service.createMovie(movie);
     return res.status(201).json({ created });
   } catch (error) {
     next(error);
@@ -34,8 +34,8 @@ const remove = async (req, res, next) => {
 const update = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const requestBody = req.body;
-    const updated = await service.updateMovie(id, requestBody);
+    const movieBody = req.body;
+    const updated = await service.updateMovie(id, movieBody);
     return res.status(200).json({ updated });
   } catch (error) {
     next(error);
