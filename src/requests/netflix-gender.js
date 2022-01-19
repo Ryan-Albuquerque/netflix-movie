@@ -1,9 +1,11 @@
 const requestService = require('./config');
 
+const requestBase = requestService('NETFLIX_GENDER');
+
 const requests = {};
 
 const getGenderInfo = async (genderId) => {
-  const genderInfo = await requestService.get(`${genderId}`);
+  const genderInfo = await requestBase.get(`${genderId}`);
   return genderInfo;
 };
 

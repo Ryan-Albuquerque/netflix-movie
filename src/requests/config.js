@@ -2,8 +2,8 @@ const axios = require('axios');
 const config = require('../../config');
 
 const request = (service) => {
-  const serviceURL = `${config[service]}_URL`;
-  // const serviceToken = `${config[service]}_TOKEN`;
+  const serviceURL = config[`${service}_URL`];
+  // const serviceToken = config[`${service}_TOKEN`];
 
   const baseRequest = axios.create({
     baseUrl: serviceURL,
