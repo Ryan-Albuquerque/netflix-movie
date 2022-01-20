@@ -8,11 +8,16 @@ const connect = async () => {
     await mongoose.connect(config.MONGO_URL);
     console.log('[MongoDB] Database connected!');
   } catch (error) {
-    console.log(error);
+    console.error(error);
     process.exit();
   }
 };
 
+const close = async () => {
+  await mongoose.disconnect();
+};
+
 mongoService.connect = connect;
+mongoService.close = close;
 
 module.exports = mongoService;
