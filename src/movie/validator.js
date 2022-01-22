@@ -17,7 +17,7 @@ const create = (req, res, next) => {
       message: 'Movie description is not defined',
     });
   }
-  if (!movie.gender) {
+  if (!movie.gender || movie.gender.length === 0) {
     return res.status(400).json({
       message: 'Movie gender is not defined',
     });
