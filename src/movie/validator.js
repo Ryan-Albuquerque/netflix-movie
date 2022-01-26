@@ -4,7 +4,7 @@ const netflixGenderRequest = require('../requests/netflix-gender');
 
 const validator = {};
 
-const create = (req, res, next) => {
+const create = async (req, res, next) => {
   const movie = req.body;
 
   if (!movie.name) {
@@ -22,14 +22,25 @@ const create = (req, res, next) => {
       message: 'Movie gender is not defined',
     });
   }
-  movie.gender.map(async (gen) => {
-    const isValidGender = await netflixGenderRequest.getGenderInfo(gen);
-    if (!isValidGender) {
-      return res.status(400).json({
-        message: `The gender ${gen} not exists.`,
-      });
-    }
-  });
+  const isValidId = movie.gender.map((gen) => util.isValidMongoId(gen));
+
+  if (isValidId.some((el) => el === false)) {
+    return res.status(400).json({ message: 'Some id is not valid!' });
+  }
+
+  const isValidGender = await Promise.allSettled(
+    movie.gender.map(async (el) => {
+      const result = await netflixGenderRequest.getGenderInfo(el);
+      return result;
+    })
+  );
+
+  if (isValidGender.some((el) => el.value === false)) {
+    return res.status(400).json({
+      message: `The gender not exists.`,
+    });
+  }
+
   if (!movie.releaseDate) {
     return res.status(400).json({
       message: 'Movie release date is not defined',

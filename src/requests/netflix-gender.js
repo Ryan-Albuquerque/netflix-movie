@@ -1,12 +1,17 @@
-const requestService = require('./config');
-
-const requestBase = requestService('NETFLIX_GENDER');
+const axios = require('axios');
+const url = require('../../config').NETFLIX_GENDER_URL;
 
 const requests = {};
 
 const getGenderInfo = async (genderId) => {
-  const genderInfo = await requestBase.get(`${genderId}`);
-  return genderInfo;
+  try {
+    const { data } = await axios.get(`${url}/gender/${genderId}`);
+    if (data.gender) return true;
+    return false;
+  } catch (error) {
+    console.log('Error try to request: ', error);
+    return false;
+  }
 };
 
 requests.getGenderInfo = getGenderInfo;

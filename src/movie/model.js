@@ -9,12 +9,10 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  gender: [
-    {
-      type: mongoose.Types.ObjectId,
-      required: true,
-    },
-  ],
+  gender: {
+    type: Array,
+    required: true,
+  },
   releaseDate: {
     type: Date,
     required: true,
